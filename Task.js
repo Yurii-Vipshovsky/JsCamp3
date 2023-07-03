@@ -1,19 +1,19 @@
 //task1
 
-function MinMaxDiff(array){
+function minMaxDiff(array){
     if(array.length==0){
         return 0;
     }
     return Math.max(...array) - Math.min(...array);
 }
 
-console.log(MinMaxDiff([1,2,3,-4]));
-console.log(MinMaxDiff([16]));
-console.log(MinMaxDiff([]));
+console.log(minMaxDiff([1,2,3,-4]));
+console.log(minMaxDiff([16]));
+console.log(minMaxDiff([]));
 
 //task2
 
-function LongerWords(string, length){
+function longerWords(string, length){
     string = string.replace(/[^a-z' ']/gi, '');
     let words = string.split(' ');
     let res = [];
@@ -25,12 +25,12 @@ function LongerWords(string, length){
     return res;
 }
 
-console.log(LongerWords("I love JavaScript", 3));
-console.log(LongerWords("I love0, JavaScript", 4));
+console.log(longerWords("I love JavaScript", 3));
+console.log(longerWords("I love0, JavaScript", 4));
 
 //task3
 
-function IsEndOfString(string, ending){
+function isEndOfString(string, ending){
     var splitString = string.split("");
     splitString = splitString.reverse();
     var splitEnding = ending.split("");
@@ -43,13 +43,13 @@ function IsEndOfString(string, ending){
     return true;
 }
 
-console.log(IsEndOfString("abc", "bc"));
-console.log(IsEndOfString("abcd", "bc"));
-console.log(IsEndOfString("abcd", "d"));
+console.log(isEndOfString("abc", "bc"));
+console.log(isEndOfString("abcd", "bc"));
+console.log(isEndOfString("abcd", "d"));
 
 //task 4
 
-function NextArifmetickMean(array){
+function nextArifmetickMean(array){
     let res = [];
     for(let i=0;i<array.length-1;++i){
         res.push((array[i]+array[i+1])/2);
@@ -57,8 +57,8 @@ function NextArifmetickMean(array){
     return res;
 }
 
-console.log(NextArifmetickMean([2, -2, 2, -2, 2]));
-console.log(NextArifmetickMean([1, 3, 5, 1, -10]));
+console.log(nextArifmetickMean([2, -2, 2, -2, 2]));
+console.log(nextArifmetickMean([1, 3, 5, 1, -10]));
 
 //task 5
 
@@ -99,3 +99,28 @@ function removeABC(string){
 
 console.log(removeABC("This might be a bit hard"));
 console.log(removeABC("hello world!"));
+
+//task 6
+
+function difference(array1, array2){
+    let res = [];
+    for(let i=0;i<array1.length;++i){
+        if(!res.includes(array1[i])){
+            res.push(array1[i]);
+        }
+    }
+    for(let i=0;i<array2.length;++i){
+        if(!res.includes(array2[i])){
+            res.push(array2[i]);
+        }
+    }
+    return res;
+}
+
+console.log(difference([1, 2, 3], [100, 2, 1, 10]));
+
+//task 7
+
+function keyAsValuesObjectCopy(object){
+    
+}
