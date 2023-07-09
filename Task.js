@@ -6,15 +6,10 @@ function insertionSort(array){
     for(let i=0;i<array.length;++i){
         for(let j=i+1;j<array.length;++j){
             if(array[j]<array[i]){
-                console.log("i"+array[i]);
-                console.log("j"+array[j]);
                 for(k=0;k<=i;++k){
                     if(array[j]<array[k]){
-                        console.log(k);
                         array.splice(k,0,array[j]);
-                        console.log(array);
                         array.splice(j+1,1);
-                        console.log(array);
                         break;
                     }
                 }
@@ -302,57 +297,197 @@ console.log(stringConversion("email@g.com Love US"));
 //task 14
 
 function partielsBalanse(string){
-
+    let partiels = [];
+    for(let i=0;i<string.length;++i){
+        if(string[i]=='('){
+            partiels.push(string[i]);
+        }
+        else if(string[i]==')'){
+            if(partiels.length==0){
+                return false;
+            }
+            partiels.pop();
+        }
+    }
+    if(partiels.length!=0){
+        return false;
+    }
+    else{
+        return true;
+    }
 }
+
+console.log(partielsBalanse('(1+(2-3))'));
+console.log(partielsBalanse('(1+(2-3)))'));
+console.log(partielsBalanse('((1+(2-3))'));
 
 //task 15
 
 function passwordGenerator(){
+    let numberCount =0;
+    let capitalLeterCount = 0;
+    let underscoreChecked = false;
+    let passLength = (Math.random()*14%14)+6;//need round
+
+
+}
+
+for(let i=0;i<1000;++i){
 
 }
 
 //task 16
 
 function arrayMix(array){
-
+    array = array.sort((a,b)=>a-b);
+    for(let i=1;i<array.length/2;i++){
+        array.splice(array.length-i+1,0,array[i]);
+        array.splice(i,1);
+    }
+    return array;
 }
+
+console.log(arrayMix([1,2,3,4,5]));
 
 //task 17
 
 function stringByFrequency(string){
+    string = string.toLowerCase();
+    let sortable = [];
+    for (var vehicle in maxSpeed) {
+        sortable.push([vehicle, maxSpeed[vehicle]]);
+    }
 
+    sortable.sort(function(a, b) {
+        return a[1] - b[1];
+    });
+    let max = 0;
+    let maxChar = '';
+    for (let char of str) {
+        charMap[char] = charMap[char] + 1 || 1;
+    }
+    for (let char in charMap) {   
+        if (charMap[char] > max) {  
+            max = charMap[char];      
+            maxChar = char;
+        }
+    }
+    return maxChar;
 }
+
+console.log(stringByFrequency("I love JavaScript"));
 
 //task 18
 
-function maxSubstring(string){
+function maxSubstring(string1, string2){
+    let shortestString;
+    let longerString;
+    if(string1.length>string2.length){
+        longerString = string1;
+        shortestString = string2;
+    }
+    else{
+        longerString = string2;
+        shortestString =string1;
+    }
+    if(longerString.includes(shortestString)){
+        return shortestString.length;
+    }
 
 }
 
 //task 19
 
 function cezarCode(string, shift){
-
+    let res='';
+    for(let i =0;i<string.length;++i){
+        res+=string[i]+shift;//fix to shift leters
+    }
+    return res;
 }
 
 //task 20
 
 function isAnagram(string1, string2){
-
+    if(string1.length!=string2.length){
+        return false;
+    }
+    array1 = string1.toLowerCase().split('').sort();
+    array2 = string2.toLowerCase().split('').sort();
+    for(let i=0;i<array1.length;++i){
+        if(array1[i]!=array2[i]){
+            return false;
+        }
+    }
+    return true;
 }
+
+console.log(isAnagram("welloh","hellow"));
+console.log(isAnagram("welloh","hello"));
 
 //task 21
 
 const University={
+    students: [],
 
+    addStudent(student){
+        this.students.push(student);
+    },
+
+    deleteStudent(studentId){
+        for(let i =0;i<this.students.length;++i){
+            if(this.students[i].id == studentId){
+                this.students.splice(i,1);
+                return;
+            }
+        }
+    },
+
+    getStudentsFromCourse(course){
+        res=[];
+        for(let i=0;i<this.students.length;++i){
+            if(this.students[i].course == course){
+                res.push(this.strudents[i]);
+            }
+        }
+        return res;
+    },
+
+    getStudentsFromFaculty(faculty){
+        res=[];
+        for(let i=0;i<this.students.length;++i){
+            if(this.students[i].faculty == faculty){
+                res.push(this.strudents[i]);
+            }
+        }
+        return res;
+    }
+}
+
+const Student={
+    id:1,
+    name: "Юрій",
+    faculty: "Прикладна математика",
+    course: 4
 }
 
 //task 22
 
 function textAnalizator(string){
-
+    let words = string.split(' ');
+    let sentensens = string.split(/[.!?]/gi);
+    let characters = string.split('');
+    console.log("In text: "+words.length+" words");
+    console.log("In text: "+(sentensens.length-1)+" sentensens");
+    console.log("In text: "+characters.length+" character");
 }
 
+textAnalizator("Hi! My name is Yuri. What is your name?");
+textAnalizator("Hi!");
+
 function mostFquentWords(string){
-    
+    let words = string.split(' ');
+    for(let i=0;i<words.length;++i){
+        words[i] = words[i].replace(/[.!?,' '()$:;\'\"-_/*+&^%$#@{}[]><]/gi,'')
+    }
 }
