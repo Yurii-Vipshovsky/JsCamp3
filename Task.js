@@ -523,7 +523,7 @@ const University={
         res=[];
         for(let i=0;i<this.students.length;++i){
             if(this.students[i].course == course){
-                res.push(this.strudents[i]);
+                res.push(this.students[i]);
             }
         }
         return res;
@@ -533,19 +533,38 @@ const University={
         res=[];
         for(let i=0;i<this.students.length;++i){
             if(this.students[i].faculty == faculty){
-                res.push(this.strudents[i]);
+                res.push(this.students[i]);
             }
         }
         return res;
     }
 }
 
-const Student={
-    id:1,
+University.addStudent({id:1,
     name: "Юрій",
     faculty: "Прикладна математика",
-    course: 4
-}
+    course: 4});
+
+University.addStudent({id:2,
+    name: "Андрій",
+    faculty: "Прикладна математика",
+    course: 4});
+
+University.addStudent({id:3,
+    name: "Петро",
+    faculty: "Філологія",
+    course: 3});
+    
+University.addStudent({id:4,
+    name: "Павло",
+    faculty: "Філологія",
+    course: 4});
+
+console.log(University.getStudentsFromCourse(3));
+console.log(University.getStudentsFromCourse(4));
+University.deleteStudent(4);
+console.log(University.getStudentsFromFaculty("Філологія"));
+console.log(University.getStudentsFromFaculty("Прикладна математика"));
 
 //task 22
 
