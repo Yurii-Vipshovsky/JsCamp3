@@ -323,18 +323,73 @@ console.log(partielsBalanse('((1+(2-3))'));
 
 //task 15
 
-function passwordGenerator(){
-    let numberCount =0;
+function generatePassword(){
+    const validCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_';
+    let password = '';
+    let numberCount = 0;
     let capitalLeterCount = 0;
     let underscoreChecked = false;
-    let passLength = (Math.random()*14%14)+6;//need round
-
-
+    let passLength = Math.floor(Math.random()*14.99)+6;
+    for(let i=0;i<passLength;++i){
+        let char = validCharacters[Math.floor(Math.random()*62.99)];
+        if(char=='_'){
+            if(underscoreChecked){
+                i-=1;
+                continue;
+            }
+            else{
+                underscoreChecked = true;
+                password+=char;
+            }
+        }
+        else if(!isNaN(char)){
+            if(numberCount>=5){
+                i-=1;
+                continue;
+            }
+            else{
+                if(i!=0 && !isNaN(password[i-1])){
+                    i-=1;
+                    continue;
+                }
+                else{
+                    numberCount+=1;
+                    password+=char;
+                }
+            }
+        }
+        else if(char == char.toUpperCase()){
+            capitalLeterCount+=1;
+            password+=char;
+        }
+        else{
+            password+=char;
+        }
+    }
+    while(capitalLeterCount<2){
+        let pos = Math.floor(Math.random()*(passLength-0.01));
+        password = password.slice(0, pos) + (validCharacters[Math.floor(Math.random()*51.99)].toUpperCase()) + password.slice(pos + 1);
+        capitalLeterCount+=1;
+    }
+    if(!underscoreChecked){
+        if(capitalLeterCount>=3){
+            let pos = Math.floor(Math.random()*(passLength-0.01));
+            password = password.slice(0, pos) + '_' + password.slice(pos + 1);
+        }
+        else{
+            let pos = Math.floor(Math.random()*(passLength-0.01));
+            while(password[pos] == password[pos].toUpperCase()){
+                pos = Math.floor(Math.random()*(passLength-0.01));
+            }
+            password = password.slice(0, pos) + '_' + password.slice(pos + 1);
+        }
+    }
+    return password;
 }
 
-for(let i=0;i<1000;++i){
-
-}
+console.log(generatePassword());
+console.log(generatePassword());
+console.log(generatePassword());
 
 //task 16
 
@@ -353,26 +408,26 @@ console.log(arrayMix([1,2,3,4,5]));
 
 function stringByFrequency(string){
     string = string.toLowerCase();
+    
+    let charMap = [];
+    for (let char of string) {
+        charMap[char] = charMap[char] + 1 || 1;
+    }
     let sortable = [];
-    for (var vehicle in maxSpeed) {
-        sortable.push([vehicle, maxSpeed[vehicle]]);
+    for (var char in charMap) {
+        sortable.push([char, charMap[char]]);
     }
 
     sortable.sort(function(a, b) {
-        return a[1] - b[1];
+        return b[1] - a[1];
     });
-    let max = 0;
-    let maxChar = '';
-    for (let char of str) {
-        charMap[char] = charMap[char] + 1 || 1;
-    }
-    for (let char in charMap) {   
-        if (charMap[char] > max) {  
-            max = charMap[char];      
-            maxChar = char;
+    let res = '';
+    for (let i=0; i<sortable.length;++i) {   
+        for(let j=0;j<sortable[i][1];++j){
+            res+=sortable[i][0];
         }
     }
-    return maxChar;
+    return res;
 }
 
 console.log(stringByFrequency("I love JavaScript"));
@@ -380,31 +435,52 @@ console.log(stringByFrequency("I love JavaScript"));
 //task 18
 
 function maxSubstring(string1, string2){
-    let shortestString;
-    let longerString;
-    if(string1.length>string2.length){
-        longerString = string1;
-        shortestString = string2;
-    }
-    else{
-        longerString = string2;
-        shortestString =string1;
-    }
-    if(longerString.includes(shortestString)){
-        return shortestString.length;
-    }
+    let maxLength = 0;
+    let endIndex = 0; 
 
+    const lengths = Array(string1.length + 1).fill(0).map(() => Array(string2.length + 1).fill(0));
+
+    for (let i = 1; i <= string1.length; i++) {
+        for (let j = 1; j <= string2.length; j++) {
+            if (string1[i - 1] === string2[j - 1]) {
+                lengths[i][j] = lengths[i - 1][j - 1] + 1;
+                if (lengths[i][j] > maxLength) {
+                    maxLength = lengths[i][j];
+                    endIndex = i - 1;
+                }
+            }
+        }
+    }
+    return string1.slice(endIndex - maxLength + 1, endIndex + 1);
 }
+
+console.log(maxSubstring('abcdef','tfwbcdefa'));
 
 //task 19
 
 function cezarCode(string, shift){
     let res='';
-    for(let i =0;i<string.length;++i){
-        res+=string[i]+shift;//fix to shift leters
+    let lowerString = string.toLowerCase();
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz ';
+    for(let i = 0; i<string.length; ++i){
+        if ((lowerString[i] >= 'a' && lowerString[i] <= 'z') || lowerString[i] == ' ' ) {
+            let currentIndex = alphabet.indexOf(lowerString[i]);
+            let shiftedIndex = (currentIndex + shift) % 27;
+            let encryptedChar = alphabet[shiftedIndex];
+            if(string[i] == string[i].toUpperCase()){
+                res += encryptedChar.toUpperCase();
+            }
+            else{
+                res += encryptedChar;
+            }
+          } else {
+            res += string[i];
+          }
     }
     return res;
 }
+
+console.log(cezarCode('Abc Hello World',15));
 
 //task 20
 
@@ -485,9 +561,28 @@ function textAnalizator(string){
 textAnalizator("Hi! My name is Yuri. What is your name?");
 textAnalizator("Hi!");
 
-function mostFquentWords(string){
+function mostFquentWords(string){  
+    string = string.toLowerCase();
     let words = string.split(' ');
+    console.log(words);
     for(let i=0;i<words.length;++i){
-        words[i] = words[i].replace(/[.!?,' '()$:;\'\"-_/*+&^%$#@{}[]><]/gi,'')
+        words[i] = words[i].replace(/[^a-z0-9 -]/gi, '');
     }
+
+    let wordsMap = [];
+    for (let i=0;i<words.length;++i) {
+        wordsMap[words[i]] = wordsMap[words[i]] + 1 || 1;
+    }
+    let sortable = [];
+    for (var word in wordsMap) {
+        sortable.push([word, wordsMap[word]]);
+    }
+
+    sortable.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+    
+    return sortable;
 }
+
+console.log(mostFquentWords("Hi hi Hi, worlds"));
